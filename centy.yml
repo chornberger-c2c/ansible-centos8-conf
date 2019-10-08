@@ -1,0 +1,66 @@
+---
+
+- hosts: all
+  vars:
+    user: horni
+
+  tasks:
+
+  - name: create user 
+    user:
+      name: "{{ user }}"
+      shell: /bin/bash
+      groups: wheel
+      append: yes
+
+  - name: allow passwordless sudo
+    lineinfile:
+      path: /etc/sudoers
+      state: present
+      regexp: '^%wheel'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+  
+  - name: set ssh key for user
+    authorized_key:
+      user: "{{ user }}"
+      state: present
+      key: https://github.com/horni23.keys
+
+  - name: set ssh key for root
+    authorized_key:
+      user: root
+      state: present
+      key: https://github.com/horni23.keys
+
+  - name: setup cockpit
+    yum:
+      name: cockpit
+      state: latest
+  
+  - name: run cockpit persistently
+    systemd: 
+      name: cockpit
+      enabled: yes
+      state: started
+
+  - name: setup visual studio code rpm key
+    rpm_key:
+      state: present
+      key: https://packages.microsoft.com/keys/microsoft.asc
+
+  - name: setup visual studio code repo
+    yum_repository:
+      name: code
+      description: Visual Studio Code Repo
+      baseurl: https://packages.microsoft.com/yumrepos/vscode
+      gpgcheck: yes
+      gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+
+  - name: install visual studio code
+    yum:
+      name: code
+      update_cache: yes
+      state: latest
+
+
+
