@@ -56,11 +56,26 @@
       gpgcheck: yes
       gpgkey: https://packages.microsoft.com/keys/microsoft.asc
 
+  - name: setup EPEL
+    yum:
+      name: epel-release
+      state: latest
+
   - name: install visual studio code
     yum:
       name: code
       update_cache: yes
       state: latest
+
+  - name: install git
+    yum:
+      name: git
+      state: latest
+  
+  # - name: install ansible
+  #   yum:
+  #     name: ansible
+  #     state: latest
 
 
 
