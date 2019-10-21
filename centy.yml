@@ -75,6 +75,7 @@
   - name: install pip3
     yum:
       name: python3-pip
+      state: latest
 
   - name: install ansible
     yum:
@@ -82,5 +83,12 @@
       enablerepo: epel-playground
       state: latest
 
+  - name: create directory for host configuration
+    file:
+      path: /home/{{ user }}/ansible-centos8-conf/
+      state: directory
 
-
+  - name: setup git repo for host configuration
+    git:
+      repo: 'https://github.com/horni23/ansible-centos8-conf.git'
+      dest: /home/{{ user }}/ansible-centos8-conf/
