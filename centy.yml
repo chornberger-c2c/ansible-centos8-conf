@@ -92,3 +92,19 @@
     git:
       repo: 'https://github.com/horni23/ansible-centos8-conf.git'
       dest: /home/{{ user }}/ansible-centos8-conf/
+
+  - name: generate ssh keys
+    openssh_keypair: 
+      path: /home/{{ user }}/.ssh/id_rsa
+      owner: "{{ user }}"
+
+  - name: read own ssh pubkey
+    command: cat /home/{{ user }}/.ssh/id_rsa.pub
+    register: ssh_key
+  
+  - name: set own ssh key
+    lineinfile:
+      path: /home/{{ user }}/.ssh/authorized_keys
+      line: "{{ ssh_key.stdout }}"
+
+
