@@ -93,10 +93,18 @@
       repo: 'https://github.com/horni23/ansible-centos8-conf.git'
       dest: /home/{{ user }}/ansible-centos8-conf/
 
+  - name: change permissions for git host config repo
+    file:
+      path: /home/{{ user }}/ansible-centos8-conf/
+      owner: "{{ user }}"
+      recurse: yes
+
   - name: generate ssh keys
     openssh_keypair: 
       path: /home/{{ user }}/.ssh/id_rsa
       owner: "{{ user }}"
+    args: 
+      creates /home/{{ user }}/.ssh/id_rsa
 
   - name: read own ssh pubkey
     command: cat /home/{{ user }}/.ssh/id_rsa.pub
