@@ -106,7 +106,7 @@
       owner: "{{ user }}"
       group: "{{ user }}"
     args: 
-      creates /home/{{ user }}/.ssh/id_rsa
+      creates: /home/{{ user }}/.ssh/id_rsa
 
   - name: read own ssh pubkey
     command: cat /home/{{ user }}/.ssh/id_rsa.pub
