@@ -123,4 +123,9 @@
       path: /home/{{ user }}/.ssh/authorized_keys
       line: "{{ ssh_key.stdout }}"
 
+  - name: install golang
+    yum:
+      name: golang
+      state: latest
+
 
