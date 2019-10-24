@@ -1,5 +1,8 @@
 ---
 
+# this playbook is for configuring a CentOS 8 host remotely first
+# after the initial run futher configuration can be done locally on the CentOS 8 host itself
+
 - hosts: all
   vars:
     user: horni
@@ -31,6 +34,11 @@
       user: root
       state: present
       key: https://github.com/horni23.keys
+
+  - name: update all packages
+    yum:
+      name: '*'
+      state: latest
 
   - name: setup cockpit
     yum:
