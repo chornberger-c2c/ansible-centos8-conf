@@ -128,4 +128,13 @@
       name: golang
       state: latest
 
+  - name: install tlp
+    yum:
+      name: tlp
+      state: latest
+
+  - name: install gnome-tweaks
+    yum:
+      name: gnome-tweaks
+      state: latest
 
