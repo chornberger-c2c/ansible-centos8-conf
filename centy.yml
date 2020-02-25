@@ -138,3 +138,12 @@
       name: gnome-tweaks
       state: latest
 
+  - name: download gnome-layout-manager
+    git: 
+      repo: 'https://github.com/vmavromatis/gnome-layout-manager.git'
+      dest: /home/{{ user }}/gnome-layout-manager
+
+  - name: run gnome-layout-manager
+    command: /home/{{ user }}/gnome-layout-manager/layoutmanager.sh --unity
+
+
