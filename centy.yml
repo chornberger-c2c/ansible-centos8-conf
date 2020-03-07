@@ -146,4 +146,16 @@
   - name: run gnome-layout-manager
     command: /home/{{ user }}/gnome-layout-manager/layoutmanager.sh --unity
 
+  - name: install rpmfusion
+    yum:
+      name: 
+        - https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm 
+        - https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm
+      state: present
+  
+  - name: install steam
+    yum:
+      name: steam
+      state: present
 
+      
