@@ -168,4 +168,10 @@
     args:
       creates: /home/{{ user }}/.bashrc.bak
 
+  - name: install vlc
+    yum:
+      name: vlc
+      state: present
+
+
 
