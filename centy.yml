@@ -158,4 +158,14 @@
       name: steam
       state: present
 
-      
+  - name: clone bash_it
+    git:
+      repo: https://github.com/Bash-it/bash-it.git
+      dest: /home/{{ user }}/.bash_it
+
+  - name: run bash_it
+    command: /home/{{ user }}/.bash_it/install.sh -s
+    args:
+      creates: /home/{{ user }}/.bashrc.bak
+
+
