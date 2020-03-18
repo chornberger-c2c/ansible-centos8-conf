@@ -67,7 +67,7 @@
         - steam
         - code
         - git
-        - python3-pip3
+        - python3-pip
         - golang
         - ansible
         - vlc
