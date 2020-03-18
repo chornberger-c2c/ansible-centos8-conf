@@ -35,22 +35,6 @@
       state: present
       key: https://github.com/horni23.keys
 
-  - name: update all packages
-    yum:
-      name: '*'
-      state: latest
-
-  - name: setup cockpit
-    yum:
-      name: cockpit
-      state: latest
-  
-  - name: run cockpit persistently
-    systemd: 
-      name: cockpit
-      enabled: yes
-      state: started
-
   - name: setup visual studio code rpm key
     rpm_key:
       state: present
@@ -69,26 +53,33 @@
       name: epel-release
       state: latest
 
-  - name: install visual studio code
+  - name: install rpmfusion
     yum:
-      name: code
-      update_cache: yes
-      state: latest
-
-  - name: install git
-    yum:
-      name: git
-      state: latest
+      name: 
+        - https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm 
+        - https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm
+      state: present
   
-  - name: install pip3
+  - name: install cockpit, steam, visual studio code, git, pip3, golang, ansible, vlc, tlp, gnome-tweaks
     yum:
-      name: python3-pip
+      name:
+        - cockpit
+        - steam
+        - code
+        - git
+        - python3-pip3
+        - golang
+        - ansible
+        - vlc
+        - tlp
+        - gnome-tweaks
+      update_cache: yes
+      enablerepo: epel-playground
       state: latest
 
-  - name: install ansible
+  - name: update all packages
     yum:
-      name: ansible
-      enablerepo: epel-playground
+      name: '*'
       state: latest
 
   - name: create directory for host configuration
@@ -123,40 +114,13 @@
       path: /home/{{ user }}/.ssh/authorized_keys
       line: "{{ ssh_key.stdout }}"
 
-  - name: install golang
-    yum:
-      name: golang
-      state: latest
-
-  - name: install tlp
-    yum:
-      name: tlp
-      state: latest
-
-  - name: install gnome-tweaks
-    yum:
-      name: gnome-tweaks
-      state: latest
-
-  - name: download gnome-layout-manager
+  - name: clone gnome-layout-manager
     git: 
       repo: 'https://github.com/vmavromatis/gnome-layout-manager.git'
       dest: /home/{{ user }}/gnome-layout-manager
 
   - name: run gnome-layout-manager
     command: /home/{{ user }}/gnome-layout-manager/layoutmanager.sh --unity
-
-  - name: install rpmfusion
-    yum:
-      name: 
-        - https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm 
-        - https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm
-      state: present
-  
-  - name: install steam
-    yum:
-      name: steam
-      state: present
 
   - name: clone bash_it
     git:
@@ -168,10 +132,9 @@
     args:
       creates: /home/{{ user }}/.bashrc.bak
 
-  - name: install vlc
-    yum:
-      name: vlc
-      state: present
-
-
+  - name: enable and start cockpit
+    systemd: 
+      name: cockpit
+      enabled: yes
+      state: started
 
