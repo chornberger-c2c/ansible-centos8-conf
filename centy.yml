@@ -119,6 +119,13 @@
       repo: 'https://github.com/vmavromatis/gnome-layout-manager.git'
       dest: /home/{{ user }}/gnome-layout-manager
 
+  - name: fix gnome-layout-manager
+    lineinfile:
+      path: /home/{{ user }}/gnome-layout-manager/layoutmanager.sh 
+      state: present
+      regexp: '^ZENITY=true'
+      line: "ZENITY=false"
+
   - name: run gnome-layout-manager
     command: /home/{{ user }}/gnome-layout-manager/layoutmanager.sh --unity
 
