@@ -64,8 +64,16 @@
         - https://download1.rpmfusion.org/free/el/rpmfusion-free-release-8.noarch.rpm 
         - https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-8.noarch.rpm
       state: present
-  
-  - name: install cockpit, steam, visual studio code, git, pip3, golang, ansible, vlc, tlp, gnome-tweaks
+
+  - name: setup kubectl repository
+    yum_repository:
+      name: kubernetes
+      description: Kubernetes
+      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+      gpgcheck: yes
+      gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+
+  - name: install cockpit, steam, visual studio code, git, pip3, golang, ansible, vlc, tlp, gnome-tweaks, kubectl
     yum:
       name:
         - cockpit
@@ -78,6 +86,7 @@
         - vlc
         - tlp
         - gnome-tweaks
+        - kubectl
       update_cache: yes
       enablerepo: epel-playground
       state: latest
@@ -142,4 +151,4 @@
       name: cockpit
       enabled: yes
       state: started
-
+  
