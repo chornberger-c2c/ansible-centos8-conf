@@ -1,0 +1,44 @@
+---
+- hosts: all
+
+  vars:
+    resizeRoot: false
+    resizeHome: false
+    vg: false
+    removeoldvg: false
+
+  tasks:
+  - name: set /dev/sdb to LVM
+    parted:
+      device: /dev/sdb
+      number: 1
+      flags: [ lvm ]
+      state: present
+
+  - name: remove rhel vg
+    lvg:
+      vg: rhel
+      state: absent
+    when: removeoldvg
+
+  - name: resize vg by attaching new pv
+    lvg:
+      vg: cl
+      pvs: /dev/sdb1
+    when: vg
+    
+  - name: resize FS root
+    lvol:
+      vg: cl
+      lv: root
+      size: +10%FREE
+      resizefs: true
+    when: resizeRoot
+
+  - name: resize FS home
+    lvol:
+      vg: cl
+      lv: home
+      size: +10%FREE
+      resizefs: true
+    when: resizeHome
