@@ -1,0 +1,12 @@
+---
+- hosts: all
+
+  tasks:
+    
+  - name: turnoff swap in /etc/fstab
+    mount:
+      path: swap
+      state: absent
+
+  - name: swapoff
+    command: swapoff -a
